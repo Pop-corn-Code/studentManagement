@@ -16,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('status');
             $table->string('course_name');
+            $table->foreignId('teacher_id');
+            $table->foreignId('student_id');
             $table->timestamps();
         });
     }
