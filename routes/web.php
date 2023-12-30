@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +22,7 @@ Route::get('login-form', function(){
 Route::get('register-form', function(){
     return view('auth.register');
 })->name('register.form');
+Route::post('register-data', [UserController::class, 'register'])->name('user.register');
 
 Route::get('student', function(){
     return view('student-board');
@@ -44,3 +46,8 @@ Route::get('/students', [StudentController::class, 'index'])->name('students');
 Route::get('/edit-std/{id}', [StudentController::class, 'edit'])->name('students.edit');
 Route::put('/update-std/{student}', [StudentController::class, 'update'])->name('students.update');
 Route::get('/dlt-std/{id}', [StudentController::class, 'delete'])->name('students.dlt');
+
+// TAKE ATTENDANCE
+Route::post('/attendance', [AttendanceController::class, 'call'])->name('call');
+Route::post('take/attendance/{semester}', [AttendanceController::class, 'take_attendance'])->name('call.students');
+// Route::get('call-')

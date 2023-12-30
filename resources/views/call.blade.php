@@ -108,7 +108,7 @@
 
   <header class="bg-white shadow">
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Students Data</h1>
+      <h1 class="text-3xl font-bold tracking-tight text-gray-900">Students Data for {{ $sem }} semester</h1>
     </div>
   </header>
   <main>
@@ -123,111 +123,57 @@
 
 
     <div class="container">
-            <div class="ml-10 flex items-baseline space-x-4">
-                <a href="{{route('add.std')}}" class="btn btn-primary flex justify-end ">Add Student</a>
-                <a data-bs-toggle="modal" href="#callModal"
-                                role="button" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Take Attendance</a>
-                                <div class="btn-group me-2" role="group" aria-label="Second group">
-                                <div class="modal fade" id="callModal" data-bs-backdrop="static"
-                                    aria-hidden="true" aria-labelledby="dltLabel" tabindex="-1">
-                                    <form action="{{route('call')}}" method="POST">
-                                      @csrf
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="dltLabel">One more step</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Choose the student's semester: 
-                                                <div class="col-auto">
-                                                    <select class="form-select" id="semester" name="semester">
-                                                        <option selected>Select Option</option>
-                                                        @for ($i = 1; $i <= 10; $i++)
-                                                            <option value='{{ $i }}'>
-                                                                {{ $i }}
-                                                            </option>
-                                                        @endfor
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-outline-primary">Yes</button>
-                                                <button class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
-                                            </div>
-                                        </div>
-</form>
-                                    </div>
-                                </div>
-                            </div>
-            </div>
-
+        <h1 class="mb-3">Course Name: {{$teacher->course_name}}</h1>
+            
         @if ($message = Session::get('success'))
             <div class="alert alert-success">
                 <p>{{ $message }}</p>
             </div>
         @endif
-
-        <table class="table table-striped">
+        <form action="{{route('call.students', $sem)}}" method="POST">
+ <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">NO.</th>
                     <th scope="col">Name</th>
                     <th scope="col">E-mail</th>
                     <th scope="col">Aaddress</th>
-                    <th scope="col">Phone Number</th>
-                    <th scope="col">Semester</th>
+                    <th scope="col">Status</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($students as $student)
+                @forelse ($students as $student)
                     <tr>
-                        <td>#{{$student->id}}</td>
-                        <td>{{ $student->name() }}</td>
+                        <td>{{ $student->firstname." ".$student->lastname }}</td>
                         <td>{{ $student->email }}</td>
                         <td>{{ $student->address }}</td>
-                        <td>{{ $student->phone }}</td>
-                        <td>{{ $student->semester }}</td>
                         <td>
-                            {{-- <a class="btn btn-info" href="{{ route('students.show', $student->id) }}">Show</a> --}}
-
-                            <a class="btn btn-primary" href="{{ route('students.edit', $student->id) }}">Edit</a>
-
-                            <a class="btn btn-danger" data-bs-toggle="modal" href="#dltstudentM{{ $student->id }}"
-                                role="button">Delete</a>
-                            <div class="btn-group me-2" role="group" aria-label="Second group">
-                                <div class="modal fade" id="dltstudentM{{ $student->id }}" data-bs-backdrop="static"
-                                    aria-hidden="true" aria-labelledby="dltLabel" tabindex="-1">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="dltLabel">Confirmation</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                Are you sure to delete this student ?
-                                            </div>
-                                            <div class="modal-footer">
-                                                <a class="btn btn-outline-primary"
-                                                    href="{{ route('students.dlt', $student->id) }}">Yes</a>
-                                                <button class="btn btn-outline-danger" data-bs-dismiss="modal">No</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="lx yz">
+                                <input type="checkbox" name="status{{$student->id}}" class="nw rx adp afv ayh bnr">
                             </div>
                         </td>
+                        
                     </tr>
-                @endforeach
+                    @empty
+                    <tr>
+                      <td colspan="5" rowspan="3">
+                        <p><center>No student found in this semester ! </center></p>
+                      </td>
+                    </tr>
+                @endforelse
+                <tr>
+                  <td colspan="5" rowspan="3">
+                    <div class="ml-10 flex justify-center items-center items-baseline space-x-4">
+                      <button type="submit" class="btn btn-primary flex justify-end">Submit</button>
+                        <!-- <a href="{{route('add.std')}}" class="btn btn-primary flex justify-end ">Submit</a> -->
+                        <a href="{{route('students')}}" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Cancel</a>
+                    </div>
+                  </td>
+                </tr>
             </tbody>
             <tfoot>
                
             </tfoot>
         </table>
-         <div class="pagination justify-content-end">
-                    {!! $students->links('vendor.pagination.bootstrap-5') !!}
-                </div>
+</form>
     </div>
 @endsection

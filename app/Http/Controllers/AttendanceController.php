@@ -3,10 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attendance;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
+use App\Models\Student;
 
 class AttendanceController extends Controller
 {
+    /**
+     * CALL FUNCTION
+     */
+    public function call(Request $req){
+        // dd($req);
+        $teacher = Teacher::where('email', $req->session()->get('email'))->first();
+        $students = Student::where("semester", $req->input('semester'))->get();
+        return view('call', [
+            'sem'=>$req->input('semester'),
+            'teacher'=>$teacher,
+            'students'=>$students
+        ]);
+    }
+    /**
+     * Take student attendance
+     */
+    public function take_attendance(Request $req, $semester){
+        dd($semester);
+    }
     /**
      * Display a listing of the resource.
      */

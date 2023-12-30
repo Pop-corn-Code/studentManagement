@@ -5,9 +5,31 @@ namespace App\Http\Controllers;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Models\Student;
+use validator; 
 
 class UserController extends Controller
 {
+    /**
+     * REGISTER FUNCTION
+     */
+    public function register(Request $req){
+        $req->validate([
+            'name'=>"required",
+            'email'=>"required|email",
+            'password'=>"required|min:6",
+            'course_name'=>"required"
+        ]);
+        // dd($req);
+        $teacher = new Teacher();
+        $teacher->name = $req->input('name');
+        $teacher->email = $req->input('email');
+        $teacher->password = $req->input('password');
+        $teacher->course_name = $req->input('course_name');
+
+        $teacher->save();
+
+        return redirect()->route('login.form')->with('success', 'Successfully registed');
+    }
 
     public function login(Request $req){
         
@@ -33,8 +55,17 @@ class UserController extends Controller
             $email = $req->input('email');
             $pwd = $req->input('password');
 
-            $student = Student::where("email", $email)->where("password", $pwd)->first();
-             
+            $teacher = Teacher::where("email", $email)->where("password", $pwd)->first();
+             if($teacher){
+                $req->session()->put('email', $teacher->email);
+                $req->session()->put('name', $teacher->name);
+                session()->flash('success', 'Success message here');
+                return redirect()->route('students')->with('success', 'Login in successfully');
+             }else{
+                  session()->flash('warning', 'Something wrong when saving your information ');
+                    return back()
+                    ->withInput();  
+             }
         }
     }
 
