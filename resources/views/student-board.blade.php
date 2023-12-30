@@ -153,7 +153,7 @@
             <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
               <!-- <li class="text-gray-400"><span class="text-gray-600">Attendance: {{session()->get('attendances')}}</span></li> -->
               @foreach(Session::get('attendances') as $atdc)
-                <li class="text-gray-400"><span class="text-gray-600">{{$atdc->course_name}}: {{$atdc->status/$atdc->total_hours * 100}}</span></li>
+                <li class="text-gray-400"><span class="text-gray-600">{{$atdc->course_name}}: {{$atdc->status/$atdc->total_hours * 100}}%</span></li>
               @endforeach
             </ul>
           </div>
