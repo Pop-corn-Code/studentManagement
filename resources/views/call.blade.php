@@ -131,49 +131,50 @@
             </div>
         @endif
         <form action="{{route('call.students', $sem)}}" method="POST">
- <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">E-mail</th>
-                    <th scope="col">Aaddress</th>
-                    <th scope="col">Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($students as $student)
-                    <tr>
-                        <td>{{ $student->firstname." ".$student->lastname }}</td>
-                        <td>{{ $student->email }}</td>
-                        <td>{{ $student->address }}</td>
-                        <td>
-                            <div class="lx yz">
-                                <input type="checkbox" name="status{{$student->id}}" class="nw rx adp afv ayh bnr">
-                            </div>
-                        </td>
-                        
-                    </tr>
-                    @empty
-                    <tr>
-                      <td colspan="5" rowspan="3">
-                        <p><center>No student found in this semester ! </center></p>
-                      </td>
-                    </tr>
-                @endforelse
-                <tr>
-                  <td colspan="5" rowspan="3">
-                    <div class="ml-10 flex justify-center items-center items-baseline space-x-4">
-                      <button type="submit" class="btn btn-primary flex justify-end">Submit</button>
-                        <!-- <a href="{{route('add.std')}}" class="btn btn-primary flex justify-end ">Submit</a> -->
-                        <a href="{{route('students')}}" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Cancel</a>
-                    </div>
-                  </td>
-                </tr>
-            </tbody>
-            <tfoot>
-               
-            </tfoot>
-        </table>
-</form>
+                      @csrf
+            <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">E-mail</th>
+                                <th scope="col">Aaddress</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($students as $student)
+                                <tr>
+                                    <td>{{ $student->firstname." ".$student->lastname }}</td>
+                                    <td>{{ $student->email }}</td>
+                                    <td>{{ $student->address }}</td>
+                                    <td>
+                                        <div class="lx yz">
+                                            <input type="checkbox" name="status{{$student->id}}" class="nw rx adp afv ayh bnr">
+                                        </div>
+                                    </td>
+                                    
+                                </tr>
+                                @empty
+                                <tr>
+                                  <td colspan="5" rowspan="3">
+                                    <p><center>No student found in this semester ! </center></p>
+                                  </td>
+                                </tr>
+                            @endforelse
+                            <tr>
+                              <td colspan="5" rowspan="3">
+                                <div class="ml-10 flex justify-center items-center items-baseline space-x-4">
+                                  <button type="submit" class="btn btn-primary flex justify-end">Submit</button>
+                                    <!-- <a href="{{route('add.std')}}" class="btn btn-primary flex justify-end ">Submit</a> -->
+                                    <a href="{{route('students')}}" class="bg-gray-900 text-white block rounded-md px-3 py-2 text-base font-medium" aria-current="page">Cancel</a>
+                                </div>
+                              </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                          
+                        </tfoot>
+                    </table>
+            </form>
     </div>
 @endsection

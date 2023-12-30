@@ -8,6 +8,7 @@ use App\Models\Student;
 
 class StudentController extends Controller
 {
+    
     //index
     public function index(){
         $students = Student::latest()->paginate(5);
@@ -73,4 +74,5 @@ class StudentController extends Controller
        $student->delete();
        return redirect()->route('students')->with('success', 'Student deleted successfully'); 
     }
+
 }

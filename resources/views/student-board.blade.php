@@ -142,14 +142,22 @@
 
           <div class="mt-4">
             <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
-              <li class="text-gray-400"><span class="text-gray-600">Hand cut and sewn locally</span></li>
-              <li class="text-gray-400"><span class="text-gray-600">Dyed with our proprietary colors</span></li>
-              <li class="text-gray-400"><span class="text-gray-600">Pre-washed &amp; pre-shrunk</span></li>
-              <li class="text-gray-400"><span class="text-gray-600">Ultra-soft 100% cotton</span></li>
+              <li class="text-gray-400"><span class="text-gray-600">Total Attendance: {{ number_format( session()->get('total_attendance'), 2, '. ', '' )}}%</span></li>
             </ul>
           </div>
         </div>
+        <div class="mt-10">
+          <h3 class="text-sm font-medium text-gray-900">Details</h3>
 
+          <div class="mt-4">
+            <ul role="list" class="list-disc space-y-2 pl-4 text-sm">
+              <!-- <li class="text-gray-400"><span class="text-gray-600">Attendance: {{session()->get('attendances')}}</span></li> -->
+              @foreach(Session::get('attendances') as $atdc)
+                <li class="text-gray-400"><span class="text-gray-600">{{$atdc->course_name}}: {{$atdc->status/$atdc->total_hours * 100}}</span></li>
+              @endforeach
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   </div>

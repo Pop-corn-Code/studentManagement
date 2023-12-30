@@ -49,5 +49,5 @@ Route::get('/dlt-std/{id}', [StudentController::class, 'delete'])->name('student
 
 // TAKE ATTENDANCE
 Route::post('/attendance', [AttendanceController::class, 'call'])->name('call');
-Route::post('take/attendance/{semester}', [AttendanceController::class, 'take_attendance'])->name('call.students');
+Route::post('/take/attendance/{semester}', [AttendanceController::class, 'take_attendance'])->name('call.students');
 // Route::get('call-')

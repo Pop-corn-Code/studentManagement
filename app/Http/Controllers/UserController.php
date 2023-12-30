@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attendance;
 use App\Models\Teacher;
 use Illuminate\Http\Request;
 use App\Models\Student;
@@ -30,7 +31,9 @@ class UserController extends Controller
 
         return redirect()->route('login.form')->with('success', 'Successfully registed');
     }
-
+/**
+     * Attendance details
+     */
     public function login(Request $req){
         
         // dd($req->input('student'));
@@ -41,8 +44,19 @@ class UserController extends Controller
             $student = Student::where("email", $email)->where("gr_NO", $pwd)->first();
             // dd($student);
             if($student){
+                $total_actual_attendance = 0;
+                $total_attendance = 0;
+                $percentage = 0;
+                $attendances = Attendance::where("student_id", $student->id)->get();
+                foreach($attendances as $atd){
+                    $total_actual_attendance += (int)$atd->status;
+                    $total_attendance += (int)$atd->total_hours;
+                }
+                $percentage = $total_actual_attendance/$total_attendance * 100;
                 $req->session()->put('email', $student->email);
                 $req->session()->put('name', $student->name());
+                $req->session()->put('total_attendance', $percentage);
+                $req->session()->put('attendances', $attendances);
                 session()->flash('success', 'Success message here');
                 return redirect()->route('student')->with('success', 'Register in successfully ');
             }else{

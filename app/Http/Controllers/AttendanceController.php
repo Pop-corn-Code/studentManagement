@@ -25,8 +25,49 @@ class AttendanceController extends Controller
     /**
      * Take student attendance
      */
-    public function take_attendance(Request $req, $semester){
-        dd($semester);
+    public function take_attendance(Request $req, $sem){
+        // dd($req);
+        $teacher = Teacher::where('email', $req->session()->get('email'))->first();
+                    // dd($teacher->id);
+        $students = Student::where("semester", $sem)->get();
+        // dd($students);
+        foreach($students as $std){
+            if($req->input('status'.$std->id)){
+                $attendance = Attendance::where("student_id", $std->id)->where("teacher_id", $teacher->id)->where("course_name", $teacher->course_name)->first();
+                // dd($attendance);
+                if($attendance){
+                    $attendance->update([
+                        "status"=>(int)$attendance->status + 1,
+                        "total_hours"=>(int)$attendance->total_hours + 1
+                    ]);
+                }else{
+                    Attendance::create([
+                        "status"=>'1',
+                        "course_name"=>$teacher->course_name,
+                        "teacher_id"=>$teacher->id,
+                        "student_id"=>$std->id,
+                        "total_hours"=>'1'
+                    ]);
+                }
+            }else{
+                $attendance = Attendance::where("student_id", $std->id)->where("teacher_id", $teacher->id)->where("course_name", $teacher->course_name)->first();
+                if($attendance){
+                    $attendance->update([
+                        "total_hours"=>(int)$attendance->total_hours + 1
+                    ]);
+                }else{
+                    Attendance::create([
+                        "status"=>'0',
+                        "course_name"=>$teacher->course_name,
+                        "teacher_id"=>$teacher->id,
+                        "student_id"=>$std->id,
+                        "total_hours"=>'1'
+                    ]);
+                }
+            }
+        }
+        return redirect()->route('students');
+
     }
     /**
      * Display a listing of the resource.

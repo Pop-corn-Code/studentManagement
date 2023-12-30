@@ -13,7 +13,10 @@ class Attendance extends Model
 
     protected $fillable = [
         "course_name",
-        "status"
+        "status",
+        "teacher_id",
+        "student_id",
+        "total_hours"
     ];
 
     public function teacher(): BelongsTo
