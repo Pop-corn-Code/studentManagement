@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +14,27 @@ use App\Http\Controllers\StudentController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Auth route
+Route::get('login-form', function(){
+    return view('auth.login');
+})->name('login.form');
+Route::get('register-form', function(){
+    return view('auth.register');
+})->name('register.form');
 
+Route::get('student', function(){
+    return view('student-board');
+})->name('student');
+
+Route::post('login-data', [UserController::class, 'login'])->name('login.data');
+// LoG-OUT
+Route::get('logout', [UserController::class, 'logout'])->name('user.logout');
 Route::get('/', function () {
-    return view('welcome');
+     if(session("email")){
+        return view('welcome');
+    }else{
+        return view('home');
+    }
 });
 Route::get('add-std', function(){
     return view('add-std-form');
