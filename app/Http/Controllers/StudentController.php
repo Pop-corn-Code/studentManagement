@@ -75,4 +75,10 @@ class StudentController extends Controller
        return redirect()->route('students')->with('success', 'Student deleted successfully'); 
     }
 
+    //settings
+    public function settings($id){
+        $student = Student::where('id', $id)->first();
+        
+        return view('student-settings', compact("student"));
+    }
 }

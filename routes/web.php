@@ -46,7 +46,8 @@ Route::get('/students', [StudentController::class, 'index'])->name('students');
 Route::get('/edit-std/{id}', [StudentController::class, 'edit'])->name('students.edit');
 Route::put('/update-std/{student}', [StudentController::class, 'update'])->name('students.update');
 Route::get('/dlt-std/{id}', [StudentController::class, 'delete'])->name('students.dlt');
-
+//student settings
+ROute::get('/std/settings={id}', [StudentController::class, 'setting'])->name('student.setting');
 // TAKE ATTENDANCE
 Route::post('/attendance', [AttendanceController::class, 'call'])->name('call');
 Route::post('/take/attendance/{semester}', [AttendanceController::class, 'take_attendance'])->name('call.students');
