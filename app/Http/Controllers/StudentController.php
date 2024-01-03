@@ -76,8 +76,8 @@ class StudentController extends Controller
     }
 
     //settings
-    public function settings($id){
-        $student = Student::where('id', $id)->first();
+    public function setting($email){
+        $student = Student::where('email', $email)->first();
         
         return view('student-settings', compact("student"));
     }
